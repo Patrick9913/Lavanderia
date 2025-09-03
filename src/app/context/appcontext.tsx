@@ -3,6 +3,7 @@
 import React, { createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../config"
+import { useAuthContext } from "./authcontext";
 
 interface APPCONTEXT_PROPS {
     users: USER_PROPS[] | null;
@@ -20,6 +21,7 @@ export const useAppContext = () => {
 
 export const AppContextProvider: React.FC<{children: ReactNode}> = ({children}) => {
 
+    const {currentUser} = useAuthContext()
     const usersRef = collection(db, "users");
     const [users, setUsers] = useState<USER_PROPS[] | null>(null)
     const [menu, setMenu] = useState<number>(1)
@@ -40,7 +42,7 @@ export const AppContextProvider: React.FC<{children: ReactNode}> = ({children}) 
 
     useEffect(() => {
         fetchUsers();
-    }, [])
+    }, [currentUser])
 
     const contextValues: APPCONTEXT_PROPS = {
         users,

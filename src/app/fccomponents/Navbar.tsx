@@ -10,7 +10,7 @@ import { useAuthContext } from "../context/authcontext";
 export const Navbar: React.FC = () => {
 
     const {setMenu} = useAppContext()
-    const {logout} = useAuthContext()
+    const {logout, currentUser} = useAuthContext()
 
     return (
         <nav className="w-full flex-1 max-w-2xs bg-white rounded-md p-5 flex flex-col justify-between">
@@ -39,7 +39,7 @@ export const Navbar: React.FC = () => {
                 </li>
             </ul>
             <div className=" flex flex-col items-start gap-y-2">
-                <p className=" text-sm">Patrick Ordoñez - Administrador</p>
+                <p className=" text-sm">{currentUser?.email}</p>
                 <button className=" text-sm hover:underline" onClick={logout}>Cerrar Sesión</button>
                 <p className=" text-sm text-gray-500">Todos los derechos reservados</p>
             </div>
