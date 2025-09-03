@@ -1,12 +1,17 @@
+
 import React from "react";
 import { IoHome } from "react-icons/io5";
 import { IoStatsChart } from "react-icons/io5";
 import { IoHandLeftSharp } from "react-icons/io5";
 import { IoPeopleSharp } from "react-icons/io5";
 import { useAppContext } from "../context/appcontext";
+import { useAuthContext } from "../context/authcontext";
 
 export const Navbar: React.FC = () => {
+
     const {setMenu} = useAppContext()
+    const {logout} = useAuthContext()
+
     return (
         <nav className="w-full flex-1 max-w-2xs bg-white rounded-md p-5 flex flex-col justify-between">
             <ul className=" flex flex-col gap-y-3">
@@ -33,8 +38,9 @@ export const Navbar: React.FC = () => {
                     </button>
                 </li>
             </ul>
-            <div>
+            <div className=" flex flex-col items-start gap-y-2">
                 <p className=" text-sm">Patrick Ordoñez - Administrador</p>
+                <button className=" text-sm hover:underline" onClick={logout}>Cerrar Sesión</button>
                 <p className=" text-sm text-gray-500">Todos los derechos reservados</p>
             </div>
         </nav>

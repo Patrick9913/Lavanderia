@@ -1,19 +1,19 @@
 'use client';
-import { useState } from "react";
 import { Application } from "./Application";
 import { Login } from "./fccomponents/Login";
+import { useAuthContext } from "./context/authcontext";
 
 export default function Home() {
 
-  const [view, setView] = useState<number>(0)
+  const {isLoggedIn} = useAuthContext()
 
   return (
     <>
       {
-        view === 1 ? (
-          <Login />
-        ) : (
+        isLoggedIn ? (
           <Application />
+        ) : (
+          <Login />
         )
       }
     </>
