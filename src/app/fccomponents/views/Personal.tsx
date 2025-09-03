@@ -1,12 +1,9 @@
 import React from "react";
 
-export const Home: React.FC = () => {
+export const Personal: React.FC = () => {
     return (
         <section className=" bg-white rounded flex-1 flex w-full h-full p-5">
-            <div>
-                <button></button>
-                <button></button>
-            </div>
+            <p className=" text-sm">Vista de Personal</p>
         </section>
     )
 }

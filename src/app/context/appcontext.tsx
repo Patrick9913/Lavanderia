@@ -1,9 +1,13 @@
-import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
+'use client';
+
+import React, { createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../config"
 
 interface APPCONTEXT_PROPS {
-
+    users: USER_PROPS[] | null;
+    menu: number
+    setMenu: Dispatch<SetStateAction<number>>
 }
 
 export const AppContext = createContext<APPCONTEXT_PROPS | undefined>(undefined)
@@ -18,6 +22,7 @@ export const AppContextProvider: React.FC<{children: ReactNode}> = ({children}) 
 
     const usersRef = collection(db, "users");
     const [users, setUsers] = useState<USER_PROPS[] | null>(null)
+    const [menu, setMenu] = useState<number>(1)
 
     const fetchUsers = () => {
         try {
@@ -37,9 +42,15 @@ export const AppContextProvider: React.FC<{children: ReactNode}> = ({children}) 
         fetchUsers();
     }, [])
 
+    const contextValues: APPCONTEXT_PROPS = {
+        users,
+        menu,
+        setMenu
+    }
+
     return (
-        <AppContextProvider>
+        <AppContext.Provider value={contextValues}>
             {children}
-        </AppContextProvider>
+        </AppContext.Provider>
     )
 }
