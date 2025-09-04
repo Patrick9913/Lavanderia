@@ -4,6 +4,7 @@ import React, { createContext, Dispatch, ReactNode, SetStateAction, useContext, 
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../config"
 import { useAuthContext } from "./authcontext";
+import { USER_PROPS } from "../types";
 
 interface APPCONTEXT_PROPS {
     users: USER_PROPS[] | null;
