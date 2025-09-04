@@ -1,6 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 
 export interface USER_PROPS {
+  id?: string;
   name: string;
   lastname: string;
   mail?: string;
@@ -9,10 +10,10 @@ export interface USER_PROPS {
 }
 
 export enum STATE_PROPS {
-  Recbidos = 1,
-  Proceso = 2,
-  Listo = 3,
-  Entregado = 4
+  "Recibido" = 1,
+  "En proceso" = 2,
+  "Listo" = 3,
+  "Entregado" = 4
 }
 
 export interface TICKETS_PROPS {
