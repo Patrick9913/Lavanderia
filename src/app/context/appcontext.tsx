@@ -50,6 +50,7 @@ export const AppContextProvider: React.FC<{children: ReactNode}> = ({children}) 
                 const ticketsData = snapshot.docs.map((doc) => ({
                     ...(doc.data()) as TICKETS_PROPS, id: doc.id
                 }))
+                setTickets(ticketsData)
             })
             return ticketsUnSuscribe
         } catch (error) {
