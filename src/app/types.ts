@@ -16,10 +16,8 @@ export enum STATE_PROPS {
 }
 
 export interface TICKETS_PROPS {
-  id: string;                // ID único del ticket (si aplica)
   uid: string;               // ID del usuario que creó o posee el ticket
-  user?: USER_PROPS;         // (opcional) Información del usuario, si se adjunta
-  state: STATE_PROPS;        // Estado del ticket, usando el enum
+  state: number;        // Estado del ticket, usando el enum
   date: Timestamp;           // Fecha de creación o asignación
   description?: string;      // (opcional) Descripción del problema o solicitud
   updatedAt?: Timestamp;     // (opcional) Última actualización
