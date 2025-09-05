@@ -6,6 +6,7 @@ import { IoHandLeftSharp } from "react-icons/io5";
 import { IoPeopleSharp } from "react-icons/io5";
 import { useAppContext } from "../context/appcontext";
 import { useAuthContext } from "../context/authcontext";
+import { IoTicket } from "react-icons/io5";
 
 export const Navbar: React.FC = () => {
 
@@ -35,6 +36,11 @@ export const Navbar: React.FC = () => {
                     <button onClick={() => setMenu(4)} className=" group flex items-center gap-x-2">
                         <IoStatsChart className=" group group-hover:text-cyan-500" />
                         <span className=" group group-hover:text-cyan-500 group-hover:underline text-sm">Estadisticas</span>
+                    </button>
+                </li><li>
+                    <button onClick={() => setMenu(5)} className=" group flex items-center gap-x-2">
+                        <IoTicket className=" group group-hover:text-cyan-500" />
+                        <span className=" group group-hover:text-cyan-500 group-hover:underline text-sm">Nuevo Ticket</span>
                     </button>
                 </li>
             </ul>

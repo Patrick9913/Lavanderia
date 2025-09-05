@@ -58,6 +58,10 @@ export const AppContextProvider: React.FC<{children: ReactNode}> = ({children}) 
         }
     }
 
+    const newTicket = () => {
+        
+    }
+
     useEffect(() => {
         fetchUsers();
         fetchTickets();
