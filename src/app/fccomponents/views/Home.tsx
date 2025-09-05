@@ -38,11 +38,12 @@ export const Home: React.FC = () => {
                             {
                                 users?.filter( u => u.id === t.uid).map( u => (
                                     <>
-                                        <div>{u.name} {u.lastname}</div>
-                                        <a className=" underline" href={`mailto:${u.mail}`}>{u.mail}</a>
-                                        <p className=""><span className=" text-green-500">ID: </span>{u.id}</p>
-                                        <p className={`${t.state == 1 && ' bg-emerald-500 text-white rounded-md px-2 py-1'}`}>{STATE_PROPS[t.state]}</p>
-                                        <p>{t.date.toDate().toString()}</p>
+                                        <p className={`rounded-md px-2 py-1 ${t.state == 1 && ' bg-emerald-500 text-white' || t.state == 2 && ' bg-blue-500 text-white'}`}>{STATE_PROPS[t.state]}</p>|
+                                        <div>{u.name} {u.lastname}</div>|
+                                        <a className=" underline" href={`mailto:${u.mail}`}>{u.mail}</a>|
+                                        <p className=""><span className=" text-green-500">ID: </span>{u.id}</p>|
+                                        <p>{t.date.toDate().toString()}</p>|
+                                        <p>{t.assignedTo}</p>|
                                     </>
                                 ))
                             }
