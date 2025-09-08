@@ -6,7 +6,9 @@ export interface USER_PROPS {
   lastname: string;
   mail?: string;
   dni: number;
-  tickets?: string[]
+  tickets?: string[];
+  nationality: string;
+  originCompany: string;
 }
 
 export enum STATE_PROPS {
@@ -17,12 +19,14 @@ export enum STATE_PROPS {
 }
 
 export interface TICKETS_PROPS {
+  id?: string;
   uid: string;               // ID del usuario que creó o posee el ticket
   state: number;        // Estado del ticket, usando el enum
   date: Timestamp;           // Fecha de creación o asignación
   description?: string;      // (opcional) Descripción del problema o solicitud
   updatedAt?: Timestamp;     // (opcional) Última actualización
   assignedTo?: string;       // (opcional) UID del técnico o persona asignada
+  items?: { [key: string]: number }; // (opcional) Prendas y cantidades
 }
 
 // dejo esos comentarios para que se entienda bien a que se refiere cada propiedad, la interfaz esta sujeta a cambios
