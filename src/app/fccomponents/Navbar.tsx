@@ -10,7 +10,7 @@ import { IoTicket } from "react-icons/io5";
 
 export const Navbar: React.FC = () => {
 
-    const {setMenu} = useAppContext()
+    const {setMenu, menu} = useAppContext()
     const {logout, currentUser} = useAuthContext()
 
     return (
@@ -18,8 +18,8 @@ export const Navbar: React.FC = () => {
             <ul className=" flex flex-col gap-y-3">
                 <li>
                     <button onClick={() => setMenu(1)} className=" group flex items-center gap-x-2">
-                        <IoHome className=" group group-hover:text-cyan-500" />
-                        <span className=" group group-hover:text-cyan-500 group-hover:underline text-sm">Inicio</span>
+                        <IoHome className={`group ${menu === 1 && ' text-cyan-500'} group-hover:text-cyan-500`} />
+                        <span className={`group ${menu === 1 && ' text-cyan-500'} group-hover:text-cyan-500 group-hover:underline text-sm`}>Inicio</span>
                     </button>
                 </li>
                 <li>
