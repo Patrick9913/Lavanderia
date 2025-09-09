@@ -13,7 +13,8 @@ export const Ticketera: React.FC = () => {
     prendas,
     selectedUser,
     createTicket,
-    setDescription
+    setDescription,
+    setMenu
   } = useAppContext();
 
   const handleCancel = () => {
@@ -31,9 +32,9 @@ export const Ticketera: React.FC = () => {
       <h2 className="text-3xl font-light mb-6">Generar nuevo ticket</h2>
       {/* Vista 1: Solo input centrado si no hay usuario seleccionado */}
       {!selectedUser && (
-        <div className="flex-1 flex items-center justify-center">
-          <div className="w-full max-w-xl border rounded-md p-6">
-            <label className="block text-xs uppercase tracking-wide text-gray-600 mb-2">DNI</label>
+        <div className="flex-1 flex flex-col items-center justify-center">
+          <div className="w-full flex flex-col items-center max-w-xl rounded-md p-6">
+            <label className=" text-2xl font-light text-gray-600 mb-2">Ingrese un DNI para generar Tickets</label>
             <input
               type="text"
               value={userDni}
@@ -42,9 +43,9 @@ export const Ticketera: React.FC = () => {
               placeholder="Ingrese DNI"
             />
           </div>
+          <button className=" text-sm underline text-orange-500" onClick={() => setMenu(2)}>¿El usuario no existe?</button>
         </div>
       )}
-
       {/* Vista 2: Usuario + Prendas si hay match */}
       {selectedUser && (
         <div className="flex-1 flex flex-col gap-y-4 h-full">

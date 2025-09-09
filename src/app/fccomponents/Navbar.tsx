@@ -15,32 +15,60 @@ export const Navbar: React.FC = () => {
 
     return (
         <nav className="w-full flex-1 max-w-2xs bg-white rounded-md p-5 flex flex-col justify-between">
-            <ul className=" flex flex-col gap-y-3">
+            <ul className=" flex flex-col gap-y-1">
                 <li>
-                    <button onClick={() => setMenu(1)} className=" group flex items-center gap-x-2">
-                        <IoHome className={`group ${menu === 1 && ' text-cyan-500'} group-hover:text-cyan-500`} />
-                        <span className={`group ${menu === 1 && ' text-cyan-500'} group-hover:text-cyan-500 group-hover:underline text-sm`}>Inicio</span>
+                    <button
+                        onClick={() => setMenu(1)}
+                        className={`group flex items-center w-full gap-x-2 rounded-md px-3 py-2 transition-colors ${
+                        menu === 1 ? "bg-gray-200 text-cyan-500" : "hover:bg-gray-200"
+                        }`}
+                    >
+                        <IoHome className="text-current" />
+                        <span className="text-sm">Inicio</span>
                     </button>
                 </li>
                 <li>
-                    <button onClick={() => setMenu(2)} className=" group flex items-center gap-x-2">
-                        <IoPeopleSharp className=" group group-hover:text-cyan-500" />
-                        <span className=" group group-hover:text-cyan-500 group-hover:underline text-sm">Personal</span>
+                    <button
+                        onClick={() => setMenu(2)}
+                        className={`group flex items-center w-full gap-x-2 rounded-md px-3 py-2 transition-colors ${
+                        menu === 2 ? "bg-gray-200 text-cyan-500" : "hover:bg-gray-200"
+                        }`}
+                    >
+                        <IoPeopleSharp className="text-current" />
+                        <span className="text-sm">Personal</span>
                     </button>
-                </li><li>
-                    <button onClick={() => setMenu(3)} className=" group flex items-center gap-x-2">
-                        <IoHandLeftSharp className=" group group-hover:text-cyan-500" />
-                        <span className=" group group-hover:text-cyan-500 group-hover:underline text-sm">Consulta</span>
+                </li>
+                <li>
+                    <button
+                        onClick={() => setMenu(3)}
+                        className={`group flex items-center w-full gap-x-2 rounded-md px-3 py-2 transition-colors ${
+                        menu === 3 ? "bg-gray-200 text-cyan-500" : "hover:bg-gray-200"
+                        }`}
+                    >
+                        <IoHandLeftSharp className="text-current" />
+                        <span className="text-sm">Consulta</span>
                     </button>
-                </li><li>
-                    <button onClick={() => setMenu(4)} className=" group flex items-center gap-x-2">
-                        <IoStatsChart className=" group group-hover:text-cyan-500" />
-                        <span className=" group group-hover:text-cyan-500 group-hover:underline text-sm">Estadisticas</span>
+                </li>
+                <li>
+                    <button
+                        onClick={() => setMenu(4)}
+                        className={`group flex items-center w-full gap-x-2 rounded-md px-3 py-2 transition-colors ${
+                        menu === 4 ? "bg-gray-200 text-cyan-500" : "hover:bg-gray-200"
+                        }`}
+                    >
+                        <IoStatsChart className="text-current" />
+                        <span className="text-sm">Estadísticas</span>
                     </button>
-                </li><li>
-                    <button onClick={() => setMenu(5)} className=" group flex items-center gap-x-2">
-                        <IoTicket className=" group group-hover:text-cyan-500" />
-                        <span className=" group group-hover:text-cyan-500 group-hover:underline text-sm">Nuevo Ticket</span>
+                </li>
+                <li>
+                    <button
+                        onClick={() => setMenu(5)}
+                        className={`group flex items-center w-full gap-x-2 rounded-md px-3 py-2 transition-colors ${
+                        menu === 5 ? "bg-gray-200 text-cyan-500" : "hover:bg-gray-200"
+                        }`}
+                    >
+                        <IoTicket className="text-current" />
+                        <span className="text-sm">Nuevo Ticket</span>
                     </button>
                 </li>
             </ul>
