@@ -5,7 +5,7 @@ export interface USER_PROPS {
   name: string;
   lastname: string;
   mail?: string;
-  dni: number;
+  dni: string | number;
   tickets?: string[];
   nationality: string;
   originCompany: string;
@@ -31,3 +31,10 @@ export interface TICKETS_PROPS {
 
 // dejo esos comentarios para que se entienda bien a que se refiere cada propiedad, la interfaz esta sujeta a cambios
 
+export interface EMPRESA_PROPS {
+  id?: string;          
+  nombre: string;       
+  pais?: string;        // País (opcional)
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
+}
