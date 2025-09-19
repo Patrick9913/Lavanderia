@@ -10,8 +10,6 @@ interface StatisticsContextType {
   error: string | null;
   calculateStatistics: (tickets: TICKETS_PROPS[], users: USER_PROPS[]) => STATISTICS_PROPS;
   updateStatisticsFromData: (tickets: TICKETS_PROPS[], users: USER_PROPS[]) => void;
-  exportToCSV: () => void;
-  exportToPDF: () => void;
   calculateUserMetrics: (userId: string, tickets: TICKETS_PROPS[], users: USER_PROPS[]) => USER_METRICS | null;
   getAllUserMetrics: (tickets: TICKETS_PROPS[], users: USER_PROPS[]) => USER_METRICS[];
 }
@@ -169,109 +167,6 @@ export const StatisticsProvider: React.FC<StatisticsProviderProps> = ({ children
     }
   }, [calculateStatistics]);
 
-  // Función para exportar a CSV
-  const exportToCSV = useCallback(() => {
-    if (!statistics) return;
-
-    const csvData = [
-      ['Métrica', 'Valor'],
-      ['Total de Tickets', statistics.totalTickets.toString()],
-      ['Total de Usuarios', statistics.totalUsers.toString()],
-      ['Tickets Hoy', statistics.ticketsToday.toString()],
-      ['Tickets Esta Semana', statistics.ticketsThisWeek.toString()],
-      ['Tickets Este Mes', statistics.ticketsThisMonth.toString()],
-      ['Tasa de Completación', `${statistics.completionRate}%`],
-      ['Tiempo Promedio de Procesamiento', `${statistics.averageProcessingTime}h`],
-      ['Tickets Pendientes', statistics.pendingTickets.toString()]
-    ];
-
-    const csvContent = csvData.map(row => row.join(',')).join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    
-    link.setAttribute('href', url);
-    link.setAttribute('download', `estadisticas_lavanderia_${new Date().toISOString().split('T')[0]}.csv`);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }, [statistics]);
-
-  // Función para exportar a PDF (simplificada)
-  const exportToPDF = useCallback(() => {
-    if (!statistics) return;
-    
-    // Para una implementación completa de PDF necesitarías una librería como jsPDF
-    // Por ahora creamos un reporte HTML que se puede imprimir como PDF
-    const reportWindow = window.open('', '_blank');
-    if (reportWindow) {
-      reportWindow.document.write(`
-        <html>
-          <head>
-            <title>Reporte de Estadísticas - Lavandería</title>
-            <style>
-              body { font-family: Arial, sans-serif; margin: 20px; }
-              .header { text-align: center; margin-bottom: 30px; }
-              .metric { margin: 10px 0; padding: 10px; border-bottom: 1px solid #eee; }
-              .metric-label { font-weight: bold; }
-              .metric-value { color: #0066cc; }
-            </style>
-          </head>
-          <body>
-            <div class="header">
-              <h1>Reporte de Estadísticas - Lavandería</h1>
-              <p>Generado el: ${new Date().toLocaleDateString()}</p>
-            </div>
-            
-            <div class="metric">
-              <span class="metric-label">Total de Tickets:</span> 
-              <span class="metric-value">${statistics.totalTickets}</span>
-            </div>
-            
-            <div class="metric">
-              <span class="metric-label">Total de Usuarios:</span> 
-              <span class="metric-value">${statistics.totalUsers}</span>
-            </div>
-            
-            <div class="metric">
-              <span class="metric-label">Tickets Hoy:</span> 
-              <span class="metric-value">${statistics.ticketsToday}</span>
-            </div>
-            
-            <div class="metric">
-              <span class="metric-label">Tickets Esta Semana:</span> 
-              <span class="metric-value">${statistics.ticketsThisWeek}</span>
-            </div>
-            
-            <div class="metric">
-              <span class="metric-label">Tickets Este Mes:</span> 
-              <span class="metric-value">${statistics.ticketsThisMonth}</span>
-            </div>
-            
-            <div class="metric">
-              <span class="metric-label">Tasa de Completación:</span> 
-              <span class="metric-value">${statistics.completionRate}%</span>
-            </div>
-            
-            <div class="metric">
-              <span class="metric-label">Tiempo Promedio de Procesamiento:</span> 
-              <span class="metric-value">${statistics.averageProcessingTime}h</span>
-            </div>
-            
-            <div class="metric">
-              <span class="metric-label">Tickets Pendientes:</span> 
-              <span class="metric-value">${statistics.pendingTickets}</span>
-            </div>
-            
-            <script>window.print();</script>
-          </body>
-        </html>
-      `);
-      reportWindow.document.close();
-    }
-  }, [statistics]);
-
   // Función para calcular métricas de un usuario específico
   const calculateUserMetrics = useCallback((userId: string, tickets: TICKETS_PROPS[], users: USER_PROPS[]): USER_METRICS | null => {
     const user = users.find(u => u.id === userId);
@@ -370,8 +265,6 @@ export const StatisticsProvider: React.FC<StatisticsProviderProps> = ({ children
     error,
     calculateStatistics,
     updateStatisticsFromData,
-    exportToCSV,
-    exportToPDF,
     calculateUserMetrics,
     getAllUserMetrics
   };

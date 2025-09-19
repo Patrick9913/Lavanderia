@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { STATISTICS_PROPS, TICKETS_PROPS, USER_PROPS, USER_METRICS } from "../../../types";
+import StatisticsExport from "./minicomponents/ReportGenerator";
 
 // ============================
 // COMPONENTES DE CARGA Y ERROR
@@ -45,26 +46,11 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({ error, onRetry }) =>
 
 interface StatisticsHeaderProps {
     statistics: STATISTICS_PROPS;
-    selectedPeriod: 'today' | 'week' | 'month' | 'year';
-    onPeriodChange: (period: 'today' | 'week' | 'month' | 'year') => void;
-    onExportCSV: () => void;
-    onExportPDF: () => void;
 }
 
 export const StatisticsHeader: React.FC<StatisticsHeaderProps> = ({ 
-    statistics, 
-    selectedPeriod, 
-    onPeriodChange, 
-    onExportCSV, 
-    onExportPDF 
+    statistics
 }) => {
-    const periodOptions = [
-        { value: 'today', label: 'Hoy' },
-        { value: 'week', label: 'Esta Semana' },
-        { value: 'month', label: 'Este Mes' },
-        { value: 'year', label: 'Este Año' }
-    ];
-
     return (
         <div className="flex justify-between items-center mb-6">
             <div>
@@ -72,41 +58,6 @@ export const StatisticsHeader: React.FC<StatisticsHeaderProps> = ({
                 <p className="text-sm text-gray-600">
                     Última actualización: {statistics.lastUpdated.toDate().toLocaleString()}
                 </p>
-            </div>
-            
-            <div className="flex gap-3 items-center">
-                {/* Selector de período */}
-                <div className="flex bg-gray-100 rounded-lg p-1">
-                    {periodOptions.map((option) => (
-                        <button
-                            key={option.value}
-                            onClick={() => onPeriodChange(option.value as any)}
-                            className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                                selectedPeriod === option.value
-                                    ? 'bg-white text-blue-600 shadow-sm'
-                                    : 'text-gray-600 hover:text-gray-800'
-                            }`}
-                        >
-                            {option.label}
-                        </button>
-                    ))}
-                </div>
-
-                <div className="w-px h-8 bg-gray-300"></div>
-
-                <button 
-                    onClick={onExportCSV}
-                    className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors text-sm font-medium"
-                >
-                    CSV
-                </button>
-                
-                <button 
-                    onClick={onExportPDF}
-                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors text-sm font-medium"
-                >
-                    PDF
-                </button>
             </div>
         </div>
     );
@@ -145,9 +96,20 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({ activeView, onView
 interface OverviewTableProps {
     statistics: STATISTICS_PROPS;
     selectedPeriod: 'today' | 'week' | 'month' | 'year';
+    onPeriodChange: (period: 'today' | 'week' | 'month' | 'year') => void;
 }
 
-export const OverviewTable: React.FC<OverviewTableProps> = ({ statistics, selectedPeriod }) => {
+export const OverviewTable: React.FC<OverviewTableProps> = ({ 
+    statistics, 
+    selectedPeriod, 
+    onPeriodChange 
+}) => {
+    const periodOptions = [
+        { value: 'today', label: 'Hoy' },
+        { value: 'week', label: 'Esta Semana' },
+        { value: 'month', label: 'Este Mes' },
+        { value: 'year', label: 'Este Año' }
+    ];
     // Función para obtener métricas según el período seleccionado
     const getPeriodMetrics = useMemo(() => {
         switch (selectedPeriod) {
@@ -188,13 +150,66 @@ export const OverviewTable: React.FC<OverviewTableProps> = ({ statistics, select
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="px-6 py-4 bg-gray-50 border-b">
                 <div className="flex justify-between items-center">
-                    <h3 className="text-lg font-semibold text-gray-800">Resumen General</h3>
-                    <div className="text-sm">
-                        <span className="text-gray-600">Mostrando: </span>
-                        <span className="font-medium text-blue-600">
-                            {getPeriodMetrics.title}
-                        </span>
-                        <div className="text-xs text-gray-500 mt-1">{getPeriodMetrics.description}</div>
+                    <div>
+                        <h3 className="text-lg font-semibold text-gray-800">Resumen General</h3>
+                        <div className="text-sm mt-1">
+                            <span className="text-gray-600">Mostrando: </span>
+                            <span className="font-medium text-blue-600">
+                                {getPeriodMetrics.title}
+                            </span>
+                            <div className="text-xs text-gray-500 mt-1">{getPeriodMetrics.description}</div>
+                        </div>
+                    </div>
+                    
+                    <div className="flex gap-3 items-center">
+                        {/* Selector de período */}
+                        <div className="flex bg-gray-100 rounded-lg p-1">
+                            {periodOptions.map((option) => (
+                                <button
+                                    key={option.value}
+                                    onClick={() => onPeriodChange(option.value as any)}
+                                    className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                                        selectedPeriod === option.value
+                                            ? 'bg-white text-blue-600 shadow-sm'
+                                            : 'text-gray-600 hover:text-gray-800'
+                                    }`}
+                                >
+                                    {option.label}
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="w-px h-8 bg-gray-300"></div>
+
+                        <StatisticsExport
+                            data={{
+                                statistics,
+                                reportType: 'general',
+                                title: 'Panel de Estadísticas Ejecutivo'
+                            }}
+                            options={{
+                                filename: 'estadisticas_lavanderia',
+                                includeTimestamp: true
+                            }}
+                        >
+                            {({ exportToCSV, exportToPDF }) => (
+                                <>
+                                    <button 
+                                        onClick={exportToCSV}
+                                        className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors text-sm font-medium"
+                                    >
+                                        CSV
+                                    </button>
+                                    
+                                    <button 
+                                        onClick={exportToPDF}
+                                        className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors text-sm font-medium"
+                                    >
+                                        PDF
+                                    </button>
+                                </>
+                            )}
+                        </StatisticsExport>
                     </div>
                 </div>
             </div>
@@ -484,9 +499,39 @@ export const UserDetailView: React.FC<UserDetailViewProps> = ({ selectedUser, on
                         Volver a Usuarios
                     </button>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-800">
-                    Detalles de Usuario
-                </h3>
+                <div className="flex items-center gap-3">
+                    <h3 className="text-xl font-semibold text-gray-800">
+                        Detalles de Usuario
+                    </h3>
+                    <StatisticsExport
+                        data={{
+                            singleUser: selectedUser,
+                            reportType: 'single-user',
+                            title: `Reporte de ${selectedUser.userName}`
+                        }}
+                        options={{
+                            filename: `usuario_${selectedUser.userDni}`,
+                            includeTimestamp: true
+                        }}
+                    >
+                        {({ exportToCSV, exportToPDF }) => (
+                            <div className="flex gap-2">
+                                <button 
+                                    onClick={exportToCSV}
+                                    className="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition-colors"
+                                >
+                                    CSV
+                                </button>
+                                <button 
+                                    onClick={exportToPDF}
+                                    className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 transition-colors"
+                                >
+                                    PDF
+                                </button>
+                            </div>
+                        )}
+                    </StatisticsExport>
+                </div>
             </div>
             
             <div className="p-6">

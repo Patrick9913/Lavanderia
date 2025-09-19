@@ -17,8 +17,6 @@ export const Statistics: React.FC = () => {
         loading, 
         error, 
         updateStatisticsFromData, 
-        exportToCSV,
-        exportToPDF,
         getAllUserMetrics
     } = useStatisticsContext();
     const { tickets, users } = useAppContext();
@@ -61,10 +59,6 @@ export const Statistics: React.FC = () => {
             {/* Header con controles */}
             <StatisticsHeader 
                 statistics={statistics}
-                selectedPeriod={selectedPeriod}
-                onPeriodChange={setSelectedPeriod}
-                onExportCSV={exportToCSV}
-                onExportPDF={exportToPDF}
             />
 
             {/* Navegación por pestañas */}
@@ -79,6 +73,7 @@ export const Statistics: React.FC = () => {
                     <OverviewTable 
                         statistics={statistics}
                         selectedPeriod={selectedPeriod}
+                        onPeriodChange={setSelectedPeriod}
                     />
                 )}
                 {activeView === 'users' && (
