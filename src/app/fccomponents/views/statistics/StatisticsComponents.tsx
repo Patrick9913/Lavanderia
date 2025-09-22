@@ -11,9 +11,9 @@ interface LoadingSpinnerProps {
 }
 
 export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ loading }) => (
-    <section className="bg-white rounded flex-1 flex w-full h-full p-5 items-center justify-center">
+    <section className="md-card rounded flex-1 flex w-full h-full p-5 items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: "var(--md-primary)" }}></div>
             <p className="text-gray-600">
                 {loading ? 'Cargando estadísticas...' : 'Cargando datos de la aplicación...'}
             </p>
@@ -27,12 +27,12 @@ interface ErrorMessageProps {
 }
 
 export const ErrorMessage: React.FC<ErrorMessageProps> = ({ error, onRetry }) => (
-    <section className="bg-white rounded flex-1 flex w-full h-full p-5 items-center justify-center">
+    <section className="md-card rounded flex-1 flex w-full h-full p-5 items-center justify-center">
         <div className="text-center">
-            <p className="text-red-500 mb-4">{error}</p>
+            <p className="mb-4" style={{ color: "#ef4444" }}>{error}</p>
             <button 
                 onClick={onRetry}
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                className="md-btn md-btn-filled"
             >
                 Reintentar
             </button>
@@ -77,10 +77,10 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({ activeView, onView
             <button
                 key={tab.key}
                 onClick={() => onViewChange(tab.key as any)}
-                className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+                className={`md-btn md-btn-outlined ${
                     activeView === tab.key 
                         ? 'border-blue-500 text-blue-600' 
-                        : 'border-transparent text-gray-600 hover:text-gray-800'
+                        : ''
                 }`}
             >
                 {tab.label}
@@ -147,17 +147,17 @@ export const OverviewTable: React.FC<OverviewTableProps> = ({
     }, [statistics, selectedPeriod]);
 
     return (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="px-6 py-4 bg-gray-50 border-b">
+        <div className="md-card md-elevated overflow-hidden">
+            <div className="px-6 py-4" style={{ backgroundColor: "var(--md-surface)", borderBottom: "1px solid var(--md-outline)" }}>
                 <div className="flex justify-between items-center">
                     <div>
-                        <h3 className="text-lg font-semibold text-gray-800">Resumen General</h3>
+                        <h3 className="text-lg font-semibold" style={{ color: "var(--md-on-surface)" }}>Resumen General</h3>
                         <div className="text-sm mt-1">
-                            <span className="text-gray-600">Mostrando: </span>
-                            <span className="font-medium text-blue-600">
+                            <span style={{ color: "var(--md-on-surface)", opacity: 0.8 }}>Mostrando: </span>
+                            <span className="font-medium" style={{ color: "var(--md-primary)" }}>
                                 {getPeriodMetrics.title}
                             </span>
-                            <div className="text-xs text-gray-500 mt-1">{getPeriodMetrics.description}</div>
+                            <div className="text-xs mt-1" style={{ color: "var(--md-on-surface)", opacity: 0.7 }}>{getPeriodMetrics.description}</div>
                         </div>
                     </div>
                     
@@ -168,10 +168,10 @@ export const OverviewTable: React.FC<OverviewTableProps> = ({
                                 <button
                                     key={option.value}
                                     onClick={() => onPeriodChange(option.value as any)}
-                                    className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                                    className={`md-btn ${
                                         selectedPeriod === option.value
-                                            ? 'bg-white text-blue-600 shadow-sm'
-                                            : 'text-gray-600 hover:text-gray-800'
+                                            ? 'md-btn-tonal'
+                                            : 'md-btn-outlined'
                                     }`}
                                 >
                                     {option.label}
@@ -179,7 +179,7 @@ export const OverviewTable: React.FC<OverviewTableProps> = ({
                             ))}
                         </div>
 
-                        <div className="w-px h-8 bg-gray-300"></div>
+                        <div className="w-px h-8" style={{ backgroundColor: "var(--md-outline)" }}></div>
 
                         <StatisticsExport
                             data={{
@@ -194,19 +194,8 @@ export const OverviewTable: React.FC<OverviewTableProps> = ({
                         >
                             {({ exportToCSV, exportToPDF }) => (
                                 <>
-                                    <button 
-                                        onClick={exportToCSV}
-                                        className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors text-sm font-medium"
-                                    >
-                                        CSV
-                                    </button>
-                                    
-                                    <button 
-                                        onClick={exportToPDF}
-                                        className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors text-sm font-medium"
-                                    >
-                                        PDF
-                                    </button>
+                                    <button onClick={exportToCSV} className="md-btn md-btn-outlined">CSV</button>
+                                    <button onClick={exportToPDF} className="md-btn md-btn-filled">PDF</button>
                                 </>
                             )}
                         </StatisticsExport>
@@ -215,14 +204,14 @@ export const OverviewTable: React.FC<OverviewTableProps> = ({
             </div>
             <div className="overflow-x-auto">
                 <table className="w-full">
-                    <thead className="bg-gray-50">
+                            <thead style={{ backgroundColor: "var(--md-surface)", color: "var(--md-on-surface)" }}>
                         <tr>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Métrica</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valor</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
                         </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="divide-y" style={{ backgroundColor: "var(--md-surface-container)", borderColor: "var(--md-outline)", color: "var(--md-on-surface)" }}>
                         <tr>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {selectedPeriod === 'today' ? 'Tickets Hoy' : 
@@ -289,7 +278,7 @@ export const OverviewTable: React.FC<OverviewTableProps> = ({
             </div>
 
             {/* Sección de estados de tickets */}
-            <div className="px-6 py-4 bg-gray-50 border-t">
+            <div className="px-6 py-4" style={{ backgroundColor: "var(--md-surface)", borderTop: "1px solid var(--md-outline)" }}>
                 <h4 className="text-sm font-semibold text-gray-700 mb-3">Distribución por Estados</h4>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="text-center">
@@ -358,7 +347,7 @@ export const UsersView: React.FC<UsersViewProps> = ({ tickets, users, getAllUser
     return (
         <div className="space-y-6">
             {/* Buscador */}
-            <div className="bg-white rounded-lg shadow-sm p-6">
+            <div className="md-card p-6">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4">
                     Buscar Usuario
                 </h3>
@@ -372,12 +361,12 @@ export const UsersView: React.FC<UsersViewProps> = ({ tickets, users, getAllUser
                             value={dniSearch}
                             onChange={(e) => setDniSearch(e.target.value)}
                             placeholder="Ej: 41727987"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full px-3 py-2 md-input"
                         />
                     </div>
                     <button
                         onClick={() => setDniSearch('')}
-                        className="px-4 py-2 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors"
+                        className="md-btn md-btn-outlined"
                     >
                         Limpiar
                     </button>
@@ -396,7 +385,7 @@ export const UsersView: React.FC<UsersViewProps> = ({ tickets, users, getAllUser
             </div>
 
             {/* Tabla de usuarios */}
-            <div className="bg-white rounded-lg shadow-sm">
+            <div className="md-card">
                 <div className="px-6 py-4 border-b border-gray-200">
                     <div className="flex justify-between items-center">
                         <h3 className="text-lg font-semibold text-gray-800">
@@ -452,7 +441,7 @@ export const UsersView: React.FC<UsersViewProps> = ({ tickets, users, getAllUser
                                         <td className="px-6 py-4 text-sm text-center">
                                             <button
                                                 onClick={() => setSelectedUser(user)}
-                                                className="text-blue-600 hover:text-blue-800 font-medium transition-colors"
+                                                className="md-btn md-btn-outlined"
                                             >
                                                 Ver Detalles
                                             </button>
@@ -486,12 +475,12 @@ interface UserDetailViewProps {
 
 export const UserDetailView: React.FC<UserDetailViewProps> = ({ selectedUser, onBack }) => {
     return (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="md-card md-elevated overflow-hidden">
             <div className="px-6 py-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
                 <div className="flex items-center gap-3">
                     <button 
                         onClick={onBack}
-                        className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors"
+                        className="md-btn md-btn-outlined"
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -516,18 +505,8 @@ export const UserDetailView: React.FC<UserDetailViewProps> = ({ selectedUser, on
                     >
                         {({ exportToCSV, exportToPDF }) => (
                             <div className="flex gap-2">
-                                <button 
-                                    onClick={exportToCSV}
-                                    className="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition-colors"
-                                >
-                                    CSV
-                                </button>
-                                <button 
-                                    onClick={exportToPDF}
-                                    className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 transition-colors"
-                                >
-                                    PDF
-                                </button>
+                                <button onClick={exportToCSV} className="md-btn md-btn-outlined">CSV</button>
+                                <button onClick={exportToPDF} className="md-btn md-btn-filled">PDF</button>
                             </div>
                         )}
                     </StatisticsExport>

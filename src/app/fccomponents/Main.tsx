@@ -12,7 +12,7 @@ export const Main: React.FC = () => {
     const {menu} = useAppContext()
 
     return (
-        <main className=" w-screen h-screen flex bg-gradient-to-t from-gray-900 to-gray-950 p-2 gap-2">
+        <main className=" w-screen h-screen flex md-surface p-2 gap-2">
             <Navbar />
             {
                 menu === 1 && (

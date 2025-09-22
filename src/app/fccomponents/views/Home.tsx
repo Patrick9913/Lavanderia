@@ -65,34 +65,34 @@ export const Home: React.FC = () => {
 
 
     return (
-        <section className=" bg-white rounded flex-1 flex flex-col w-full h-full p-5 overflow-y-scroll">
+        <section className="md-surface rounded flex-1 flex flex-col w-full h-full p-5 overflow-y-auto">
             <div className=" flex h-fit gap-x-2 mb-8">
-                <button className="bg-blue-500 cursor-pointer text-white px-6 py-1 rounded-md text-sm flex items-center gap-x-2">
+                <button className="md-btn md-btn-tonal cursor-pointer text-sm flex items-center gap-x-2">
                     <FaParachuteBox className="w-5 h-10" />
                     <span>Recibidas {received?.length}</span>
                 </button>
-                <button className="bg-blue-500 cursor-pointer text-white px-6 py-1 rounded-md text-sm flex items-center gap-x-2">
+                <button className="md-btn md-btn-tonal cursor-pointer text-sm flex items-center gap-x-2">
                     <FaBoxesPacking className="w-5 h-10" />
                     <span>En Proceso {inProcess?.length}</span>
                 </button>
-                <button className="bg-blue-500 cursor-pointer text-white px-6 py-1 rounded-md text-sm flex items-center gap-x-2">
+                <button className="md-btn md-btn-tonal cursor-pointer text-sm flex items-center gap-x-2">
                     <BsBox2Fill className="w-5 h-10" />
                     <span>Listas {list?.length}</span>
                 </button>
-                <button className="bg-blue-500 cursor-pointer text-white px-6 py-1 rounded-md text-sm flex items-center gap-x-2">
+                <button className="md-btn md-btn-tonal cursor-pointer text-sm flex items-center gap-x-2">
                     <BsFillBox2HeartFill className="w-5 h-10" />
                     <span>Entregadas {delivered?.length}</span>
                 </button>
             </div>
-            <h2 className=" text-3xl font-light mb-2">Tickets</h2>
-            <div className="flex flex-wrap items-center gap-3 mb-6">
+            <h2 className="text-3xl font-light text-gray-800 mb-2">Tickets</h2>
+            <div className="md-card p-4 flex flex-wrap items-center gap-3 mb-6">
                 <input
                     type="text"
                     inputMode="numeric"
                     value={dniQuery}
                     onChange={(e) => setDniQuery(e.target.value)}
                     placeholder="Buscar DNI..."
-                    className="border rounded px-2 py-1 text-sm"
+                    className="md-input text-sm"
                 />
                 <label className="inline-flex items-center gap-2 text-sm text-gray-700">
                     <input
@@ -106,7 +106,7 @@ export const Home: React.FC = () => {
                 <select
                     value={bulkNextState as any}
                     onChange={(e) => setBulkNextState(e.target.value === "" ? "" : Number(e.target.value))}
-                    className="border rounded px-2 py-1 text-sm"
+                    className="md-input text-sm"
                 >
                     <option value="">Cambiar estado a...</option>
                     <option value={1}>{STATE_PROPS[1]}</option>
@@ -117,14 +117,16 @@ export const Home: React.FC = () => {
                 <button
                     onClick={handleBulkUpdate}
                     disabled={!bulkNextState || selectedTicketIds.length === 0}
-                    className={`px-4 py-1 rounded text-sm text-white ${(!bulkNextState || selectedTicketIds.length === 0) ? "bg-gray-300 cursor-not-allowed" : "bg-emerald-600 hover:bg-emerald-700"}`}
+                    className={`md-btn ${(!bulkNextState || selectedTicketIds.length === 0) ? "md-btn-outlined cursor-not-allowed opacity-60" : "md-btn-filled"}`}
                 >
                     Aplicar a seleccionados ({selectedTicketIds.length})
                 </button>
             </div>
-            <button onClick={() => setMenu(5)} className=" bg-blue-500 cursor-pointer text-sm text-white px-6 py-1 w-fit rounded text-start mb-8">Nuevo Ticket</button>
+            <button onClick={() => setMenu(5)} className="md-btn md-btn-filled cursor-pointer text-sm w-fit mb-8">
+                Nuevo Ticket
+            </button>
             <div>
-                <div className="divide-y w-full border rounded-md bg-white">
+                <div className="divide-y w-full md-card">
                     {filteredTickets?.map((t, i) => {
                         const u = userById[t.uid as string]
                         if (!u) return null

@@ -130,18 +130,18 @@
     };
 
     return (
-        <section className="bg-white rounded flex-1 flex flex-col w-full h-full p-5 overflow-y-scroll">
-        <h2 className="text-3xl font-light mb-2">Personal</h2>
+        <section className="md-surface rounded flex-1 flex flex-col w-full h-full p-5 overflow-y-auto">
+        <h2 className="text-3xl font-light text-gray-800 mb-2">Personal</h2>
 
         <div className="w-full mb-6">
-            <div className="flex flex-col md:flex-row md:items-center gap-3">
+            <div className="md-card p-4 flex flex-col md:flex-row md:items-center gap-3">
             <div className="flex flex-col sm:flex-row flex-1 gap-3">
                 <input
                 type="text"
                 value={nameQuery}
                 onChange={(e) => setNameQuery(e.target.value)}
                 placeholder="Buscar Nombre y Apellido..."
-                className="border rounded px-2 py-1 text-sm w-full sm:w-56"
+                className="md-input text-sm w-full sm:w-56"
                 disabled={mode !== "list"}
                 />
                 <input
@@ -150,7 +150,7 @@
                 value={dniQuery}
                 onChange={(e) => setDniQuery(e.target.value.replace(/\D/g, ""))}
                 placeholder="Buscar DNI..."
-                className="border rounded px-2 py-1 text-sm w-full sm:w-40"
+                className="md-input text-sm w-full sm:w-40"
                 disabled={mode !== "list"}
                 />
                 <input
@@ -158,12 +158,12 @@
                 value={empresaQuery}
                 onChange={(e) => setEmpresaQuery(e.target.value)}
                 placeholder="Buscar Empresa..."
-                className="border rounded px-2 py-1 text-sm w-full sm:w-56"
+                className="md-input text-sm w-full sm:w-56"
                 disabled={mode !== "list"}
                 />
                 <button
                 onClick={() => { setNameQuery(""); setDniQuery(""); setEmpresaQuery(""); }}
-                className="px-4 py-1 rounded text-sm text-white bg-gray-600 hover:bg-gray-700 w-full sm:w-auto"
+                className="md-btn md-btn-outlined w-full sm:w-auto"
                 disabled={mode !== "list"}
                 >
                 Limpiar filtros
@@ -193,7 +193,7 @@
         {lastError && <div className="text-sm text-red-600 mb-4">Error: {lastError}</div>}
 
         {mode === "list" && (
-            <div className="divide-y w-full border rounded-md bg-white">
+            <div className="divide-y w-full md-card">
             {filteredUsers.length === 0 ? (
                 <div className="p-6 text-center text-gray-500">No hay resultados. Probá limpiar los filtros.</div>
             ) : (
@@ -233,32 +233,32 @@
         )}
 
         {mode === "newUser" && (
-            <div className="w-full border rounded-md bg-white p-4">
+            <div className="w-full md-card p-4">
             <h3 className="text-lg font-semibold mb-3">Agregar nuevo personal</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                 <label className="text-xs text-gray-600">Nombre</label>
-                <input className="w-full border rounded px-2 py-1" value={newUser.name}
+                <input className="w-full md-input" value={newUser.name}
                         onChange={(e) => setNewUser((s) => ({ ...s, name: e.target.value }))}/>
                 </div>
                 <div>
                 <label className="text-xs text-gray-600">Apellido</label>
-                <input className="w-full border rounded px-2 py-1" value={newUser.lastname}
+                <input className="w-full md-input" value={newUser.lastname}
                         onChange={(e) => setNewUser((s) => ({ ...s, lastname: e.target.value }))}/>
                 </div>
                 <div>
                 <label className="text-xs text-gray-600">DNI</label>
-                <input className="w-full border rounded px-2 py-1" inputMode="numeric" value={newUser.dni}
+                <input className="w-full md-input" inputMode="numeric" value={newUser.dni}
                         onChange={(e) => setNewUser((s) => ({ ...s, dni: e.target.value.replace(/\D/g, "") }))}/>
                 </div>
                 <div>
                 <label className="text-xs text-gray-600">Email</label>
-                <input type="email" className="w-full border rounded px-2 py-1" value={newUser.mail}
+                <input type="email" className="w-full md-input" value={newUser.mail}
                         onChange={(e) => setNewUser((s) => ({ ...s, mail: e.target.value }))}/>
                 </div>
                 <div>
                 <label className="text-xs text-gray-600">Empresa</label>
-                <select className="w-full border rounded px-2 py-1" value={newUser.empresaId}
+                <select className="w-full md-input" value={newUser.empresaId}
                         onChange={(e) => setNewUser((s) => ({ ...s, empresaId: e.target.value }))}>
                     <option value="">— Seleccionar —</option>
                     {(empresas ?? []).map((em) => (
@@ -271,67 +271,67 @@
                 </div>
             </div>
             <div className="mt-4 flex items-center justify-end gap-2">
-                <button className="px-4 py-1 rounded border" onClick={() => setMode("list")}>Cancelar</button>
-                <button className="px-4 py-1 rounded text-white bg-emerald-600 hover:bg-emerald-700"
+                <button className="md-btn md-btn-outlined" onClick={() => setMode("list")}>Cancelar</button>
+                <button className="md-btn md-btn-filled"
                         onClick={submitNewUser}>Guardar</button>
             </div>
             </div>
         )}
 
         {mode === "newEmpresa" && (
-            <div className="w-full border rounded-md bg-white p-4">
+            <div className="w-full md-card p-4">
             <h3 className="text-lg font-semibold mb-3">Crear empresa</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                 <label className="text-xs text-gray-600">Nombre de empresa</label>
-                <input className="w-full border rounded px-2 py-1" value={newEmp.nombre}
+                <input className="w-full md-input" value={newEmp.nombre}
                         onChange={(e) => setNewEmp((s) => ({ ...s, nombre: e.target.value }))}/>
                 </div>
                 <div>
                 <label className="text-xs text-gray-600">País</label>
-                <input className="w-full border rounded px-2 py-1" value={newEmp.pais}
+                <input className="w-full md-input" value={newEmp.pais}
                         onChange={(e) => setNewEmp((s) => ({ ...s, pais: e.target.value }))}/>
                 </div>
             </div>
             <div className="mt-4 flex items-center justify-end gap-2">
-                <button className="px-4 py-1 rounded border" onClick={() => setMode("list")}>Cancelar</button>
-                <button className="px-4 py-1 rounded text-white bg-emerald-600 hover:bg-emerald-700"
+                <button className="md-btn md-btn-outlined" onClick={() => setMode("list")}>Cancelar</button>
+                <button className="md-btn md-btn-filled"
                         onClick={submitNewEmp}>Guardar</button>
             </div>
             </div>
         )}
 
         {mode === "editUser" && editing && (
-            <div className="w-full border rounded-md bg-white p-4">
+            <div className="w-full md-card p-4">
             <h3 className="text-lg font-semibold mb-3">Editar personal</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                 <label className="text-xs text-gray-600">Nombre</label>
-                <input className="w-full border rounded px-2 py-1"
+                <input className="w-full md-input"
                         value={editForm.name}
                         onChange={(e) => setEditForm((s) => ({ ...s, name: e.target.value }))}/>
                 </div>
                 <div>
                 <label className="text-xs text-gray-600">Apellido</label>
-                <input className="w-full border rounded px-2 py-1"
+                <input className="w-full md-input"
                         value={editForm.lastname}
                         onChange={(e) => setEditForm((s) => ({ ...s, lastname: e.target.value }))}/>
                 </div>
                 <div>
                 <label className="text-xs text-gray-600">DNI</label>
-                <input className="w-full border rounded px-2 py-1" inputMode="numeric"
+                <input className="w-full md-input" inputMode="numeric"
                         value={editForm.dni}
                         onChange={(e) => setEditForm((s) => ({ ...s, dni: e.target.value.replace(/\D/g, "") }))}/>
                 </div>
                 <div>
                 <label className="text-xs text-gray-600">Email</label>
-                <input className="w-full border rounded px-2 py-1"
+                <input className="w-full md-input"
                         value={editForm.mail}
                         onChange={(e) => setEditForm((s) => ({ ...s, mail: e.target.value }))}/>
                 </div>
                 <div>
                 <label className="text-xs text-gray-600">Empresa</label>
-                <select className="w-full border rounded px-2 py-1"
+                <select className="w-full md-input"
                         value={editEmpresaId}
                         onChange={(e) => setEditEmpresaId(e.target.value)}>
                     <option value="">— Seleccionar —</option>
@@ -342,11 +342,11 @@
                 </div>
             </div>
             <div className="mt-4 flex items-center justify-end gap-2">
-                <button className="px-4 py-1 rounded border"
+                <button className="md-btn md-btn-outlined"
                         onClick={() => { setEditing(null); setEditForm({ name: "", lastname: "", dni: "", mail: "" }); setEditEmpresaId(""); setMode("list"); }}>
                 Cancelar
                 </button>
-                <button className="px-4 py-1 rounded text-white bg-black"
+                <button className="md-btn md-btn-filled"
                         onClick={submitEditUser}>
                 Guardar cambios
                 </button>

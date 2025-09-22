@@ -14,14 +14,13 @@ export const Navbar: React.FC = () => {
     const {logout, currentUser} = useAuthContext()
 
     return (
-        <nav className="w-full flex-1 max-w-2xs bg-white rounded-md p-5 flex flex-col justify-between">
+        <nav className="w-full flex-1 max-w-2xs md-card p-5 flex flex-col justify-between" style={{ color: "var(--md-on-surface)" }}>
             <ul className=" flex flex-col gap-y-1">
                 <li>
                     <button
                         onClick={() => setMenu(1)}
-                        className={`group flex items-center w-full gap-x-2 rounded-md px-3 py-2 transition-colors ${
-                        menu === 1 ? "bg-gray-200 text-cyan-500" : "hover:bg-gray-200"
-                        }`}
+                        className={`group flex items-center w-full gap-x-2 rounded-md px-3 py-2 transition-colors`}
+                        style={menu === 1 ? { backgroundColor: "var(--md-primary-container)", color: "var(--md-on-primary-container)" } : {}}
                     >
                         <IoHome className="text-current" />
                         <span className="text-sm">Inicio</span>
@@ -30,9 +29,8 @@ export const Navbar: React.FC = () => {
                 <li>
                     <button
                         onClick={() => setMenu(2)}
-                        className={`group flex items-center w-full gap-x-2 rounded-md px-3 py-2 transition-colors ${
-                        menu === 2 ? "bg-gray-200 text-cyan-500" : "hover:bg-gray-200"
-                        }`}
+                        className={`group flex items-center w-full gap-x-2 rounded-md px-3 py-2 transition-colors`}
+                        style={menu === 2 ? { backgroundColor: "var(--md-primary-container)", color: "var(--md-on-primary-container)" } : {}}
                     >
                         <IoPeopleSharp className="text-current" />
                         <span className="text-sm">Personal</span>
@@ -41,9 +39,8 @@ export const Navbar: React.FC = () => {
                 <li>
                     <button
                         onClick={() => setMenu(4)}
-                        className={`group flex items-center w-full gap-x-2 rounded-md px-3 py-2 transition-colors ${
-                        menu === 4 ? "bg-gray-200 text-cyan-500" : "hover:bg-gray-200"
-                        }`}
+                        className={`group flex items-center w-full gap-x-2 rounded-md px-3 py-2 transition-colors`}
+                        style={menu === 4 ? { backgroundColor: "var(--md-primary-container)", color: "var(--md-on-primary-container)" } : {}}
                     >
                         <IoStatsChart className="text-current" />
                         <span className="text-sm">Estadísticas</span>
@@ -52,9 +49,8 @@ export const Navbar: React.FC = () => {
                 <li>
                     <button
                         onClick={() => setMenu(5)}
-                        className={`group flex items-center w-full gap-x-2 rounded-md px-3 py-2 transition-colors ${
-                        menu === 5 ? "bg-gray-200 text-cyan-500" : "hover:bg-gray-200"
-                        }`}
+                        className={`group flex items-center w-full gap-x-2 rounded-md px-3 py-2 transition-colors`}
+                        style={menu === 5 ? { backgroundColor: "var(--md-primary-container)", color: "var(--md-on-primary-container)" } : {}}
                     >
                         <IoTicket className="text-current" />
                         <span className="text-sm">Nuevo Ticket</span>
@@ -62,9 +58,9 @@ export const Navbar: React.FC = () => {
                 </li>
             </ul>
             <div className=" flex flex-col items-start gap-y-2">
-                <p className=" text-sm">{currentUser?.email}</p>
-                <button className=" text-sm hover:underline" onClick={logout}>Cerrar Sesión</button>
-                <p className=" text-sm text-gray-500">Todos los derechos reservados</p>
+                <p className=" text-sm" style={{ color: "var(--md-on-surface)" }}>{currentUser?.email}</p>
+                <button className=" text-sm hover:underline" onClick={logout} style={{ color: "var(--md-on-surface)" }}>Cerrar Sesión</button>
+                <p className=" text-sm" style={{ color: "var(--md-on-surface)", opacity: 0.7 }}>Todos los derechos reservados</p>
             </div>
         </nav>
     )
