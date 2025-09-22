@@ -2,7 +2,7 @@ import React from "react";
 import { Home } from "./views/Home";
 import { Navbar } from "./Navbar";
 import { useAppContext } from "../context/appcontext";
-import { Personal } from "./views/Personal";
+import  Personal  from "./views/Personal";
 import { Consultation } from "./views/Consultation";
 import { Statistics } from "./views/statistics/Statistics";
 import { Ticketera } from "./views/Ticketera";
