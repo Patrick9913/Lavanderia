@@ -5,7 +5,7 @@ export interface USER_PROPS {
   name: string;
   lastname: string;
   mail?: string;
-  dni: string | number;
+  dni: number;
   tickets?: string[];
   nationality: string;
   originCompany: string;
@@ -30,14 +30,6 @@ export interface TICKETS_PROPS {
 }
 
 // dejo esos comentarios para que se entienda bien a que se refiere cada propiedad, la interfaz esta sujeta a cambios
-
-export interface EMPRESA_PROPS {
-  id?: string;          
-  nombre: string;       
-  pais?: string;        // País (opcional)
-  createdAt?: Timestamp;
-  updatedAt?: Timestamp;
-}
 
 export interface STATISTICS_PROPS {
   totalTickets: number;                    // Total de tickets en el sistema
@@ -81,3 +73,4 @@ export interface USER_METRICS {
   loyaltyScore: number; // 0-100
   itemsLaundry: { [item: string]: number };
 }
+
