@@ -31,6 +31,14 @@ export interface TICKETS_PROPS {
 
 // dejo esos comentarios para que se entienda bien a que se refiere cada propiedad, la interfaz esta sujeta a cambios
 
+export interface EMPRESA_PROPS {
+  id?: string;          
+  nombre: string;       
+  pais?: string;        // País (opcional)
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
+}
+
 export interface STATISTICS_PROPS {
   totalTickets: number;                    // Total de tickets en el sistema
   totalUsers: number;                      // Total de usuarios registrados

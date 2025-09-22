@@ -4,6 +4,7 @@ import "./globals.css";
 import { AppContextProvider } from "./context/appcontext";
 import { AuthContextProvider } from "./context/authcontext";
 import { PeopleProvider } from "./context/peoplecontext";
+import { StatisticsProvider } from "./context/statisticscontext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,9 +33,11 @@ export default function RootLayout({
       >
         <AuthContextProvider>
           <AppContextProvider>
-            <PeopleProvider>  
-            {children}
-            </PeopleProvider>
+            <StatisticsProvider>
+              <PeopleProvider>  
+                {children}
+              </PeopleProvider>
+            </StatisticsProvider>
           </AppContextProvider>
         </AuthContextProvider>
       </body>
