@@ -40,17 +40,6 @@ export const Navbar: React.FC = () => {
                 </li>
                 <li>
                     <button
-                        onClick={() => setMenu(3)}
-                        className={`group flex items-center w-full gap-x-2 rounded-md px-3 py-2 transition-colors ${
-                        menu === 3 ? "bg-gray-200 text-cyan-500" : "hover:bg-gray-200"
-                        }`}
-                    >
-                        <IoHandLeftSharp className="text-current" />
-                        <span className="text-sm">Consulta</span>
-                    </button>
-                </li>
-                <li>
-                    <button
                         onClick={() => setMenu(4)}
                         className={`group flex items-center w-full gap-x-2 rounded-md px-3 py-2 transition-colors ${
                         menu === 4 ? "bg-gray-200 text-cyan-500" : "hover:bg-gray-200"

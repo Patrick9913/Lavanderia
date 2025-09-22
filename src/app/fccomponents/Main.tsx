@@ -25,11 +25,6 @@ export const Main: React.FC = () => {
                 )
             }
             {
-                menu === 3 && (
-                    <Consultation />
-                )
-            }
-            {
                 menu === 4 && (
                     <Statistics />
                 )
