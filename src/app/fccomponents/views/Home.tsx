@@ -79,7 +79,7 @@ export const Home: React.FC = () => {
 
 
     return (
-        <section className="rounded flex-1 flex flex-col w-full h-full p-5 overflow-y-auto">
+        <section className="    rounded flex-1 flex flex-col w-full h-full p-5 overflow-y-auto">
             <div className=" flex h-fit gap-x-2 mb-8">
                 <button className="md-btn md-btn-tonal cursor-pointer text-sm flex items-center gap-x-2">
                     <FaParachuteBox className="w-5 h-10" />
