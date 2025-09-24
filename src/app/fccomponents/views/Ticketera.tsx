@@ -28,7 +28,7 @@ export const Ticketera: React.FC = () => {
   }
 
   return (
-    <section className="md-surface rounded flex-1 flex flex-col w-full h-full max-h-screen p-5 overflow-y-auto">
+    <section className="bg-white rounded flex-1 flex flex-col w-full h-full max-h-screen p-5 overflow-y-auto">
       <h2 className="text-3xl font-light text-gray-800 mb-6">Generar nuevo ticket</h2>
       {/* Vista 1: Solo input centrado si no hay usuario seleccionado */}
       {!selectedUser && (

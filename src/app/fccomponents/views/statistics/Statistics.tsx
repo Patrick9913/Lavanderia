@@ -55,7 +55,7 @@ export const Statistics: React.FC = () => {
     }
 
     return (
-        <section className="md-surface rounded flex-1 flex flex-col w-full h-full p-5 overflow-y-auto">
+        <section className="bg-white rounded flex-1 flex flex-col w-full h-full p-5 overflow-y-auto">
             {/* Header con controles */}
             <StatisticsHeader 
                 statistics={statistics}

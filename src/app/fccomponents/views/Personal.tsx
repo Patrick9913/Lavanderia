@@ -1,5 +1,5 @@
     'use client';
-    import React, { useMemo, useState } from "react";
+    import React, { useMemo, useState, useEffect } from "react";
     import { usePeople } from "@/app/context/peoplecontext";
     import type { USER_PROPS } from "@/app/types";
     import Swal from "sweetalert2";
@@ -12,6 +12,9 @@
     const [dniQuery, setDniQuery] = useState<string>("");
     const [nameQuery, setNameQuery] = useState<string>("");
     const [empresaQuery, setEmpresaQuery] = useState<string>("");
+    // Paginación
+    const [usersPerPage, setUsersPerPage] = useState<number>(10);
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
     const filteredUsers = useMemo(() => {
         const base = users ?? [];
@@ -28,6 +31,18 @@
         return okDni && okName && okEmp;
         });
     }, [users, dniQuery, nameQuery, empresaQuery]);
+
+    // Cálculos de paginación
+    const totalUsers = filteredUsers.length;
+    const totalPages = Math.ceil(totalUsers / usersPerPage);
+    const startIndex = (currentPage - 1) * usersPerPage;
+    const endIndex = startIndex + usersPerPage;
+    const paginatedUsers = useMemo(() => filteredUsers.slice(startIndex, endIndex), [filteredUsers, startIndex, endIndex]);
+
+    // Resetear página cuando cambian los filtros
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [dniQuery, nameQuery, empresaQuery, usersPerPage]);
 
     const [mode, setMode] = useState<ViewMode>("list");
 
@@ -113,7 +128,7 @@
             name: editForm.name,
             lastname: editForm.lastname,
             mail: editForm.mail,
-            dni: editForm.dni.replace(/\D/g, ""),
+            dni: parseInt(editForm.dni.replace(/\D/g, ""), 10),
             ...originCompanyPatch,
         });
 
@@ -130,74 +145,214 @@
     };
 
     return (
-        <section className="md-surface rounded flex-1 flex flex-col w-full h-full p-5 overflow-y-auto">
+        <section className=" bg-white rounded flex-1 flex flex-col w-full h-full p-5 overflow-y-auto">
         <h2 className="text-3xl font-light text-gray-800 mb-2">Personal</h2>
 
-        <div className="w-full mb-6">
-            <div className="md-card p-4 flex flex-col md:flex-row md:items-center gap-3">
-            <div className="flex flex-col sm:flex-row flex-1 gap-3">
-                <input
-                type="text"
-                value={nameQuery}
-                onChange={(e) => setNameQuery(e.target.value)}
-                placeholder="Buscar Nombre y Apellido..."
-                className="md-input text-sm w-full sm:w-56"
-                disabled={mode !== "list"}
-                />
-                <input
-                type="text"
-                inputMode="numeric"
-                value={dniQuery}
-                onChange={(e) => setDniQuery(e.target.value.replace(/\D/g, ""))}
-                placeholder="Buscar DNI..."
-                className="md-input text-sm w-full sm:w-40"
-                disabled={mode !== "list"}
-                />
-                <input
-                type="text"
-                value={empresaQuery}
-                onChange={(e) => setEmpresaQuery(e.target.value)}
-                placeholder="Buscar Empresa..."
-                className="md-input text-sm w-full sm:w-56"
-                disabled={mode !== "list"}
-                />
-                <button
-                onClick={() => { setNameQuery(""); setDniQuery(""); setEmpresaQuery(""); }}
-                className="md-btn md-btn-outlined w-full sm:w-auto"
-                disabled={mode !== "list"}
-                >
-                Limpiar filtros
-                </button>
-            </div>
+        {/* Panel integrado de filtros y paginación */}
+        <div className="bg-gradient-to-r from-gray-50/80 to-emerald-50/30 rounded-xl border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300 ease-out mb-6">
+            {/* Fila superior: Filtros y controles principales */}
+            <div className="p-4 border-b border-gray-200/50">
+                <div className="flex flex-col md:flex-row md:items-center gap-3">
+                    <div className="flex flex-col sm:flex-row flex-1 gap-3">
+                        <input
+                            type="text"
+                            value={nameQuery}
+                            onChange={(e) => setNameQuery(e.target.value)}
+                            placeholder="Buscar Nombre y Apellido..."
+                            className="md-input text-sm w-full sm:w-56"
+                            disabled={mode !== "list"}
+                        />
+                        <input
+                            type="text"
+                            inputMode="numeric"
+                            value={dniQuery}
+                            onChange={(e) => setDniQuery(e.target.value.replace(/\D/g, ""))}
+                            placeholder="Buscar DNI..."
+                            className="md-input text-sm w-full sm:w-40"
+                            disabled={mode !== "list"}
+                        />
+                        <input
+                            type="text"
+                            value={empresaQuery}
+                            onChange={(e) => setEmpresaQuery(e.target.value)}
+                            placeholder="Buscar Empresa..."
+                            className="md-input text-sm w-full sm:w-56"
+                            disabled={mode !== "list"}
+                        />
+                        <button
+                            onClick={() => { setNameQuery(""); setDniQuery(""); setEmpresaQuery(""); }}
+                            className="md-btn md-btn-outlined w-full sm:w-auto"
+                            disabled={mode !== "list"}
+                        >
+                            Limpiar filtros
+                        </button>
+                    </div>
 
+                    {mode === "list" && (
+                        <div className="flex gap-2 w-full md:w-auto md:ml-auto">
+                            <button
+                                onClick={() => setMode("newUser")}
+                                className="px-4 py-1 rounded text-sm text-white bg-emerald-600 hover:bg-emerald-700 w-full md:w-auto"
+                            >
+                                + Nuevo personal
+                            </button>
+                            <button
+                                onClick={() => setMode("newEmpresa")}
+                                className="px-4 py-1 rounded text-sm text-white bg-emerald-600 hover:bg-emerald-700 w-full md:w-auto"
+                            >
+                                + Crear empresa
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </div>
+            
+            {/* Fila inferior: Controles de paginación */}
             {mode === "list" && (
-                <div className="flex gap-2 w-full md:w-auto md:ml-auto">
-                <button
-                    onClick={() => setMode("newUser")}
-                    className="px-4 py-1 rounded text-sm text-white bg-emerald-600 hover:bg-emerald-700 w-full md:w-auto"
-                >
-                    + Nuevo personal
-                </button>
-                <button
-                    onClick={() => setMode("newEmpresa")}
-                    className="px-4 py-1 rounded text-sm text-white bg-emerald-600 hover:bg-emerald-700 w-full md:w-auto"
-                >
-                    + Crear empresa
-                </button>
+                <div className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                        <label className="text-sm font-medium text-gray-700">
+                            Mostrar:
+                        </label>
+                        <div className="relative group">
+                            <select
+                                value={usersPerPage}
+                                onChange={(e) => setUsersPerPage(Number(e.target.value))}
+                                className="
+                                    appearance-none bg-white border-2 border-gray-200 rounded-lg px-3 py-2 pr-8
+                                    text-sm font-medium text-gray-700 min-w-[70px]
+                                    hover:border-emerald-300 hover:shadow-md
+                                    focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500
+                                    transition-all duration-300 ease-out
+                                    cursor-pointer
+                                "
+                            >
+                                <option value={10}>10</option>
+                                <option value={20}>20</option>
+                                <option value={50}>50</option>
+                                <option value={100}>100</option>
+                            </select>
+                            <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                <svg className="w-4 h-4 text-gray-400 group-hover:text-emerald-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </div>
+                        <span className="text-sm font-medium text-gray-600">
+                            usuarios por página
+                        </span>
+                    </div>
+                    
+                    <div className="flex items-center gap-3 px-3 py-2 bg-white/60 rounded-lg border border-gray-200/50">
+                        <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                            <span className="text-sm font-semibold text-gray-800">
+                                Página <span className="text-emerald-600">{currentPage}</span> de <span className="text-emerald-600">{totalPages}</span>
+                            </span>
+                        </div>
+                        <div className="w-px h-4 bg-gray-300"></div>
+                        <span className="text-sm text-gray-600">
+                            {totalUsers} usuarios total
+                        </span>
+                    </div>
                 </div>
             )}
-            </div>
         </div>
 
         {usersLoading && <div className="text-sm text-gray-500 mb-4">Cargando personal...</div>}
         {lastError && <div className="text-sm text-red-600 mb-4">Error: {lastError}</div>}
 
         {mode === "list" && (
+            <>
+
+            {/* Navegación de páginas con estilo Google */}
+            {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-3 mb-8 p-4 bg-white rounded-xl border border-gray-200/60 shadow-sm">
+                    {/* Botón Anterior */}
+                    <button
+                        onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                        disabled={currentPage === 1}
+                        className={`
+                            group relative flex items-center gap-x-2 px-4 py-2.5 rounded-lg
+                            text-sm font-medium transition-all duration-300 ease-out
+                            transform-gpu will-change-transform
+                            ${currentPage === 1 
+                                ? 'text-gray-400 cursor-not-allowed bg-gray-100/50' 
+                                : 'text-gray-700 bg-white border-2 border-gray-200 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 hover:shadow-md hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98]'
+                            }
+                        `}
+                    >
+                        <svg className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                        <span>Anterior</span>
+                    </button>
+                    
+                    {/* Números de página */}
+                    <div className="flex items-center gap-2">
+                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                            let pageNum;
+                            if (totalPages <= 5) {
+                                pageNum = i + 1;
+                            } else if (currentPage <= 3) {
+                                pageNum = i + 1;
+                            } else if (currentPage >= totalPages - 2) {
+                                pageNum = totalPages - 4 + i;
+                            } else {
+                                pageNum = currentPage - 2 + i;
+                            }
+                            
+                            const isActive = currentPage === pageNum;
+                            
+                            return (
+                                <button
+                                    key={pageNum}
+                                    onClick={() => setCurrentPage(pageNum)}
+                                    className={`
+                                        group relative flex items-center justify-center w-10 h-10 rounded-lg
+                                        text-sm font-semibold transition-all duration-300 ease-out
+                                        transform-gpu will-change-transform
+                                        ${isActive 
+                                            ? 'bg-emerald-600 text-white shadow-lg scale-110 border-2 border-emerald-700' 
+                                            : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 hover:shadow-md hover:scale-105 active:scale-95'
+                                        }
+                                    `}
+                                >
+                                    {pageNum}
+                                    {isActive && (
+                                        <div className="absolute inset-0 bg-emerald-400 rounded-lg animate-pulse opacity-30"></div>
+                                    )}
+                                </button>
+                            );
+                        })}
+                    </div>
+                    
+                    {/* Botón Siguiente */}
+                    <button
+                        onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                        disabled={currentPage === totalPages}
+                        className={`
+                            group relative flex items-center gap-x-2 px-4 py-2.5 rounded-lg
+                            text-sm font-medium transition-all duration-300 ease-out
+                            transform-gpu will-change-transform
+                            ${currentPage === totalPages 
+                                ? 'text-gray-400 cursor-not-allowed bg-gray-100/50' 
+                                : 'text-gray-700 bg-white border-2 border-gray-200 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 hover:shadow-md hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98]'
+                            }
+                        `}
+                    >
+                        <span>Siguiente</span>
+                        <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            )}
             <div className="divide-y w-full md-card">
-            {filteredUsers.length === 0 ? (
+            {paginatedUsers.length === 0 ? (
                 <div className="p-6 text-center text-gray-500">No hay resultados. Probá limpiar los filtros.</div>
             ) : (
-                filteredUsers.map((u) => (
+                paginatedUsers.map((u) => (
                 <div key={u.id} className="px-4 py-3 hover:bg-gray-50 transition">
                     <details className="group">
                     <summary className="flex items-center justify-between cursor-pointer list-none">
@@ -230,6 +385,7 @@
                 ))
             )}
             </div>
+            </>
         )}
 
         {mode === "newUser" && (

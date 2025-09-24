@@ -79,103 +79,147 @@ export const Home: React.FC = () => {
 
 
     return (
-        <section className="    rounded flex-1 flex flex-col w-full h-full p-5 overflow-y-auto">
+        <section className=" bg-white rounded flex-1 flex flex-col w-full h-full p-5 overflow-y-auto">
             <div className=" flex h-fit gap-x-2 mb-8">
-                <button className="md-btn md-btn-tonal cursor-pointer text-sm flex items-center gap-x-2">
-                    <FaParachuteBox className="w-5 h-10" />
+                <button className=" py-2 px-6 rounded bg-blue-200 cursor-pointer text-sm flex items-center gap-x-2">
+                    <FaParachuteBox className="w-5 h-10 text-blue-500" />
                     <span>Recibidas {received?.length}</span>
                 </button>
-                <button className="md-btn md-btn-tonal cursor-pointer text-sm flex items-center gap-x-2">
-                    <FaBoxesPacking className="w-5 h-10" />
+                <button className=" py-2 px-6 rounded bg-blue-200 cursor-pointer text-sm flex items-center gap-x-2">
+                    <FaBoxesPacking className="w-5 h-10 text-blue-500" />
                     <span>En Proceso {inProcess?.length}</span>
                 </button>
-                <button className="md-btn md-btn-tonal cursor-pointer text-sm flex items-center gap-x-2">
-                    <BsBox2Fill className="w-5 h-10" />
+                <button className=" py-2 px-6 rounded bg-blue-200 cursor-pointer text-sm flex items-center gap-x-2">
+                    <BsBox2Fill className="w-5 h-10 text-blue-500" />
                     <span>Listas {list?.length}</span>
                 </button>
-                <button className="md-btn md-btn-tonal cursor-pointer text-sm flex items-center gap-x-2">
-                    <BsFillBox2HeartFill className="w-5 h-10" />
+                <button className=" py-2 px-6 rounded bg-blue-200 cursor-pointer text-sm flex items-center gap-x-2">
+                    <BsFillBox2HeartFill className="w-5 h-10 text-blue-500" />
                     <span>Entregadas {delivered?.length}</span>
                 </button>
             </div>
             <h2 className="text-3xl font-light text-gray-800 mb-2">Tickets</h2>
-            <div className="md-card p-4 flex flex-wrap items-center gap-3 mb-6">
-                <input
-                    type="text"
-                    inputMode="numeric"
-                    value={dniQuery}
-                    onChange={(e) => setDniQuery(e.target.value)}
-                    placeholder="Buscar DNI..."
-                    className="md-input text-sm"
-                />
-                <label className="inline-flex items-center gap-2 text-sm text-gray-700">
-                    <input
-                        type="checkbox"
-                        className="h-4 w-4"
-                        checked={allSelected}
-                        onChange={(e) => toggleSelectAll(e.target.checked)}
-                    />
-                    <span>Seleccionar todo</span>
-                </label>
-                <select
-                    value={bulkNextState as any}
-                    onChange={(e) => setBulkNextState(e.target.value === "" ? "" : Number(e.target.value))}
-                    className="md-input text-sm"
-                >
-                    <option value="">Cambiar estado a...</option>
-                    <option value={1}>{STATE_PROPS[1]}</option>
-                    <option value={2}>{STATE_PROPS[2]}</option>
-                    <option value={3}>{STATE_PROPS[3]}</option>
-                    <option value={4}>{STATE_PROPS[4]}</option>
-                </select>
-                <button
-                    onClick={handleBulkUpdate}
-                    disabled={!bulkNextState || selectedTicketIds.length === 0}
-                    className={`md-btn ${(!bulkNextState || selectedTicketIds.length === 0) ? "md-btn-outlined cursor-not-allowed opacity-60" : "md-btn-filled"}`}
-                >
-                    Aplicar a seleccionados ({selectedTicketIds.length})
-                </button>
-            </div>
-            <button onClick={() => setMenu(5)} className="md-btn md-btn-filled cursor-pointer text-sm w-fit mb-8">
-                Nuevo Ticket
-            </button>
-            
-            {/* Controles de paginación */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
-                <div className="flex items-center gap-3">
-                    <label className="text-sm text-gray-700">Mostrar:</label>
-                    <select
-                        value={ticketsPerPage}
-                        onChange={(e) => setTicketsPerPage(Number(e.target.value))}
-                        className="md-input text-sm w-20"
-                    >
-                        <option value={10}>10</option>
-                        <option value={20}>20</option>
-                        <option value={50}>50</option>
-                        <option value={100}>100</option>
-                    </select>
-                    <span className="text-sm text-gray-700">tickets por página</span>
+            {/* Panel integrado de filtros y paginación */}
+            <div className="bg-gradient-to-r from-gray-50/80 to-blue-50/30 rounded-xl border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300 ease-out mb-6">
+                {/* Fila superior: Filtros y controles principales */}
+                <div className="p-4 border-b border-gray-200/50">
+                    <div className="flex flex-wrap items-center gap-3">
+                        <input
+                            type="text"
+                            inputMode="numeric"
+                            value={dniQuery}
+                            onChange={(e) => setDniQuery(e.target.value)}
+                            placeholder="Buscar DNI..."
+                            className="md-input text-sm"
+                        />
+                        <label className="inline-flex items-center gap-2 text-sm text-gray-700">
+                            <input
+                                type="checkbox"
+                                className="h-4 w-4"
+                                checked={allSelected}
+                                onChange={(e) => toggleSelectAll(e.target.checked)}
+                            />
+                            <span>Seleccionar todo</span>
+                        </label>
+                        <select
+                            value={bulkNextState as any}
+                            onChange={(e) => setBulkNextState(e.target.value === "" ? "" : Number(e.target.value))}
+                            className="md-input text-sm"
+                        >
+                            <option value="">Cambiar estado a...</option>
+                            <option value={1}>{STATE_PROPS[1]}</option>
+                            <option value={2}>{STATE_PROPS[2]}</option>
+                            <option value={3}>{STATE_PROPS[3]}</option>
+                            <option value={4}>{STATE_PROPS[4]}</option>
+                        </select>
+                        <button
+                            onClick={handleBulkUpdate}
+                            disabled={!bulkNextState || selectedTicketIds.length === 0}
+                            className={`md-btn ${(!bulkNextState || selectedTicketIds.length === 0) ? "md-btn-outlined cursor-not-allowed opacity-60" : "md-btn-filled"}`}
+                        >
+                            Aplicar a seleccionados ({selectedTicketIds.length})
+                        </button>
+                        <button onClick={() => setMenu(5)} className="md-btn md-btn-filled cursor-pointer text-sm ml-auto">
+                            Nuevo Ticket
+                        </button>
+                    </div>
                 </div>
                 
-                <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-700">
-                        Página {currentPage} de {totalPages} ({totalTickets} tickets total)
-                    </span>
+                {/* Fila inferior: Controles de paginación */}
+                <div className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                        <label className="text-sm font-medium text-gray-700">
+                            Mostrar:
+                        </label>
+                        <div className="relative group">
+                            <select
+                                value={ticketsPerPage}
+                                onChange={(e) => setTicketsPerPage(Number(e.target.value))}
+                                className="
+                                    appearance-none bg-white border-2 border-gray-200 rounded-lg px-3 py-2 pr-8
+                                    text-sm font-medium text-gray-700 min-w-[70px]
+                                    hover:border-blue-300 hover:shadow-md
+                                    focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500
+                                    transition-all duration-300 ease-out
+                                    cursor-pointer
+                                "
+                            >
+                                <option value={10}>10</option>
+                                <option value={20}>20</option>
+                                <option value={50}>50</option>
+                                <option value={100}>100</option>
+                            </select>
+                            <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                <svg className="w-4 h-4 text-gray-400 group-hover:text-blue-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </div>
+                        <span className="text-sm font-medium text-gray-600">
+                            tickets por página
+                        </span>
+                    </div>
+                    
+                    <div className="flex items-center gap-3 px-3 py-2 bg-white/60 rounded-lg border border-gray-200/50">
+                        <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                            <span className="text-sm font-semibold text-gray-800">
+                                Página <span className="text-blue-600">{currentPage}</span> de <span className="text-blue-600">{totalPages}</span>
+                            </span>
+                        </div>
+                        <div className="w-px h-4 bg-gray-300"></div>
+                        <span className="text-sm text-gray-600">
+                            {totalTickets} tickets total
+                        </span>
+                    </div>
                 </div>
             </div>
 
-            {/* Navegación de páginas */}
+            {/* Navegación de páginas con estilo Google */}
             {totalPages > 1 && (
-                <div className="flex items-center justify-center gap-2 mb-6">
+                <div className="flex items-center justify-center gap-3 mb-8 p-4 bg-white rounded-xl border border-gray-200/60 shadow-sm">
+                    {/* Botón Anterior */}
                     <button
                         onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                         disabled={currentPage === 1}
-                        className={`md-btn ${currentPage === 1 ? "md-btn-outlined cursor-not-allowed opacity-60" : "md-btn-tonal"} text-sm`}
+                        className={`
+                            group relative flex items-center gap-x-2 px-4 py-2.5 rounded-lg
+                            text-sm font-medium transition-all duration-300 ease-out
+                            transform-gpu will-change-transform
+                            ${currentPage === 1 
+                                ? 'text-gray-400 cursor-not-allowed bg-gray-100/50' 
+                                : 'text-gray-700 bg-white border-2 border-gray-200 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 hover:shadow-md hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98]'
+                            }
+                        `}
                     >
-                        Anterior
+                        <svg className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                        <span>Anterior</span>
                     </button>
                     
-                    <div className="flex items-center gap-1">
+                    {/* Números de página */}
+                    <div className="flex items-center gap-2">
                         {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                             let pageNum;
                             if (totalPages <= 5) {
@@ -188,24 +232,49 @@ export const Home: React.FC = () => {
                                 pageNum = currentPage - 2 + i;
                             }
                             
+                            const isActive = currentPage === pageNum;
+                            
                             return (
                                 <button
                                     key={pageNum}
                                     onClick={() => setCurrentPage(pageNum)}
-                                    className={`md-btn ${currentPage === pageNum ? "md-btn-filled" : "md-btn-outlined"} text-sm w-10`}
+                                    className={`
+                                        group relative flex items-center justify-center w-10 h-10 rounded-lg
+                                        text-sm font-semibold transition-all duration-300 ease-out
+                                        transform-gpu will-change-transform
+                                        ${isActive 
+                                            ? 'bg-blue-600 text-white shadow-lg scale-110 border-2 border-blue-700' 
+                                            : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 hover:shadow-md hover:scale-105 active:scale-95'
+                                        }
+                                    `}
                                 >
                                     {pageNum}
+                                    {isActive && (
+                                        <div className="absolute inset-0 bg-blue-400 rounded-lg animate-pulse opacity-30"></div>
+                                    )}
                                 </button>
                             );
                         })}
                     </div>
                     
+                    {/* Botón Siguiente */}
                     <button
                         onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                         disabled={currentPage === totalPages}
-                        className={`md-btn ${currentPage === totalPages ? "md-btn-outlined cursor-not-allowed opacity-60" : "md-btn-tonal"} text-sm`}
+                        className={`
+                            group relative flex items-center gap-x-2 px-4 py-2.5 rounded-lg
+                            text-sm font-medium transition-all duration-300 ease-out
+                            transform-gpu will-change-transform
+                            ${currentPage === totalPages 
+                                ? 'text-gray-400 cursor-not-allowed bg-gray-100/50' 
+                                : 'text-gray-700 bg-white border-2 border-gray-200 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 hover:shadow-md hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98]'
+                            }
+                        `}
                     >
-                        Siguiente
+                        <span>Siguiente</span>
+                        <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
                     </button>
                 </div>
             )}
