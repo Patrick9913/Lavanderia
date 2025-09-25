@@ -280,14 +280,24 @@ export const Home: React.FC = () => {
                 </div>
             )}
             <div>
-                <div className="divide-y w-full md-card">
+                <div className=" w-full md-card">
                     {paginatedTickets?.map((t, i) => {
+                        
+                        const isFirst = i === 0;
+                        const isLast = i === paginatedTickets.length - 1;
+
+                        const roundedClass = isFirst
+                            ? "rounded-t-lg"
+                            : isLast
+                            ? "rounded-b-lg"
+                            : "";
+                            
                         const u = userById[t.uid as string]
                         if (!u) return null
                         return (
                             <div
                             key={i}
-                            className="px-4 py-3 hover:bg-gray-50 transition"
+                            className={`p-4 border border-blue-100/60 bg-gray-50 hover:bg-gray-100 transition-colors duration-300 ${roundedClass}`}
                             >
                             {/* Encabezado clickable */}
                             <details className="group">
