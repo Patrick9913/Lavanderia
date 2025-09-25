@@ -69,7 +69,7 @@ interface TabNavigationProps {
 }
 
 export const TabNavigation: React.FC<TabNavigationProps> = ({ activeView, onViewChange }) => (
-    <div className="flex gap-2 mb-6 border-b border-gray-200">
+    <div className="flex gap-2 mb-6 border-b pb-5 border-gray-200">
         {[
             { key: 'overview', label: 'Resumen' },
             { key: 'users', label: 'Usuarios' }
@@ -77,7 +77,7 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({ activeView, onView
             <button
                 key={tab.key}
                 onClick={() => onViewChange(tab.key as any)}
-                className={`md-btn md-btn-outlined ${
+                className={` p-2 text-sm rounded border ${
                     activeView === tab.key 
                         ? 'border-blue-500 text-blue-600' 
                         : ''
@@ -147,7 +147,7 @@ export const OverviewTable: React.FC<OverviewTableProps> = ({
     }, [statistics, selectedPeriod]);
 
     return (
-        <div className="md-card md-elevated overflow-hidden">
+        <div className=" overflow-hidden">
             <div className="px-6 py-4" style={{ backgroundColor: "var(--md-surface)", borderBottom: "1px solid var(--md-outline)" }}>
                 <div className="flex justify-between items-center">
                     <div>
@@ -163,15 +163,15 @@ export const OverviewTable: React.FC<OverviewTableProps> = ({
                     
                     <div className="flex gap-3 items-center">
                         {/* Selector de período */}
-                        <div className="flex bg-gray-100 rounded-lg p-1">
+                        <div className="flex gap-x-3">
                             {periodOptions.map((option) => (
                                 <button
                                     key={option.value}
                                     onClick={() => onPeriodChange(option.value as any)}
-                                    className={`md-btn ${
+                                    className={`rounded p-2 ${
                                         selectedPeriod === option.value
-                                            ? 'md-btn-tonal'
-                                            : 'md-btn-outlined'
+                                            ? ' bg-blue-100 font-semibold'
+                                            : ' bg-gray-100'
                                     }`}
                                 >
                                     {option.label}
@@ -194,8 +194,8 @@ export const OverviewTable: React.FC<OverviewTableProps> = ({
                         >
                             {({ exportToCSV, exportToPDF }) => (
                                 <>
-                                    <button onClick={exportToCSV} className="md-btn md-btn-outlined">CSV</button>
-                                    <button onClick={exportToPDF} className="md-btn md-btn-filled">PDF</button>
+                                    <button onClick={exportToCSV} className=" p-2 rounded bg-blue-50 text-sm font-semibold hover:bg-blue-200 transition-all ease-in">CSV</button>
+                                    <button onClick={exportToPDF} className=" p-2 rounded bg-blue-50 text-sm font-semibold hover:bg-blue-200 transition-all ease-in">PDF</button>
                                 </>
                             )}
                         </StatisticsExport>
@@ -361,12 +361,12 @@ export const UsersView: React.FC<UsersViewProps> = ({ tickets, users, getAllUser
                             value={dniSearch}
                             onChange={(e) => setDniSearch(e.target.value)}
                             placeholder="Ej: 41727987"
-                            className="w-full px-3 py-2 md-input"
+                            className="w-full px-3 py-2 rounded border focus:outline-none"
                         />
                     </div>
                     <button
                         onClick={() => setDniSearch('')}
-                        className="md-btn md-btn-outlined"
+                        className="text-sm hover:text-blue-400"
                     >
                         Limpiar
                     </button>

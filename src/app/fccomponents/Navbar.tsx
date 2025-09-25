@@ -85,7 +85,7 @@ export const Navbar: React.FC = () => {
     const {logout, currentUser} = useAuthContext()
 
     return (
-        <nav className="w-full flex-1 max-w-2xs bg-white p-6 flex flex-col justify-between rounded-xl shadow-lg border border-gray-100 backdrop-blur-sm">
+        <nav className="w-full flex-1 max-w-2xs bg-white p-6 flex flex-col justify-between rounded-md shadow-lg border border-gray-100 backdrop-blur-sm">
             {/* Navegación principal */}
             <ul className="flex flex-col gap-y-2">
                 <li>

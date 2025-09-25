@@ -194,13 +194,13 @@
                         <div className="flex gap-2 w-full md:w-auto md:ml-auto">
                             <button
                                 onClick={() => setMode("newUser")}
-                                className="px-4 py-1 rounded text-sm text-white bg-emerald-600 hover:bg-emerald-700 w-full md:w-auto"
+                                className="hover:scale-[1.02] group transition-all ease-in hover:bg-blue-50 hover:border-blue-200/60 hover:shadow-lg rounded-md px-6 py-2 cursor-pointer text-sm ml-auto relative bg-white border-2 border-blue-100 text-blue-600 flex items-center gap-2"
                             >
                                 + Nuevo personal
                             </button>
                             <button
                                 onClick={() => setMode("newEmpresa")}
-                                className="px-4 py-1 rounded text-sm text-white bg-emerald-600 hover:bg-emerald-700 w-full md:w-auto"
+                                className="hover:scale-[1.02] group transition-all ease-in hover:bg-blue-50 hover:border-blue-200/60 hover:shadow-lg rounded-md px-6 py-2 cursor-pointer text-sm ml-auto relative bg-white border-2 border-blue-100 text-blue-600 flex items-center gap-2"
                             >
                                 + Crear empresa
                             </button>
