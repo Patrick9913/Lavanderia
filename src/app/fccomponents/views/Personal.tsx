@@ -159,7 +159,7 @@
                             value={nameQuery}
                             onChange={(e) => setNameQuery(e.target.value)}
                             placeholder="Buscar Nombre y Apellido..."
-                            className="md-input text-sm w-full sm:w-56"
+                            className="border focus:outline-none  p-2 rounded bg-white text-sm"
                             disabled={mode !== "list"}
                         />
                         <input
@@ -168,7 +168,7 @@
                             value={dniQuery}
                             onChange={(e) => setDniQuery(e.target.value.replace(/\D/g, ""))}
                             placeholder="Buscar DNI..."
-                            className="md-input text-sm w-full sm:w-40"
+                            className="border focus:outline-none  p-2 rounded bg-white text-sm"
                             disabled={mode !== "list"}
                         />
                         <input
@@ -176,7 +176,7 @@
                             value={empresaQuery}
                             onChange={(e) => setEmpresaQuery(e.target.value)}
                             placeholder="Buscar Empresa..."
-                            className="md-input text-sm w-full sm:w-56"
+                            className="border focus:outline-none  p-2 rounded bg-white text-sm"
                             disabled={mode !== "list"}
                         />
                         <button

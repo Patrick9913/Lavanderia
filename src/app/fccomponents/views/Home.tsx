@@ -83,19 +83,19 @@ export const Home: React.FC = () => {
             <div className=" flex h-fit gap-x-2 mb-8">
                 <button className=" py-2 px-6 rounded bg-blue-200 cursor-pointer text-sm flex items-center gap-x-2">
                     <FaParachuteBox className="w-5 h-10 text-blue-500" />
-                    <span>Recibidas {received?.length}</span>
+                    <span>Recibidas <span className=" font-bold">{received?.length}</span></span>
                 </button>
                 <button className=" py-2 px-6 rounded bg-blue-200 cursor-pointer text-sm flex items-center gap-x-2">
                     <FaBoxesPacking className="w-5 h-10 text-blue-500" />
-                    <span>En Proceso {inProcess?.length}</span>
+                    <span>En Proceso <span className=" font-bold">{inProcess?.length}</span></span>
                 </button>
                 <button className=" py-2 px-6 rounded bg-blue-200 cursor-pointer text-sm flex items-center gap-x-2">
                     <BsBox2Fill className="w-5 h-10 text-blue-500" />
-                    <span>Listas {list?.length}</span>
+                    <span>Listas <span className=" font-bold">{list?.length}</span></span>
                 </button>
                 <button className=" py-2 px-6 rounded bg-blue-200 cursor-pointer text-sm flex items-center gap-x-2">
                     <BsFillBox2HeartFill className="w-5 h-10 text-blue-500" />
-                    <span>Entregadas {delivered?.length}</span>
+                    <span>Entregadas <span className=" font-bold">{delivered?.length}</span></span>
                 </button>
             </div>
             <h2 className="text-3xl font-light text-gray-800 mb-2">Tickets</h2>
@@ -110,7 +110,7 @@ export const Home: React.FC = () => {
                             value={dniQuery}
                             onChange={(e) => setDniQuery(e.target.value)}
                             placeholder="Buscar DNI..."
-                            className="md-input text-sm"
+                            className=" border focus:outline-none  p-2 rounded bg-white text-sm"
                         />
                         <label className="inline-flex items-center gap-2 text-sm text-gray-700">
                             <input
@@ -124,7 +124,7 @@ export const Home: React.FC = () => {
                         <select
                             value={bulkNextState as any}
                             onChange={(e) => setBulkNextState(e.target.value === "" ? "" : Number(e.target.value))}
-                            className="md-input text-sm"
+                            className=" p-2 bg-white rounded border text-sm"
                         >
                             <option value="">Cambiar estado a...</option>
                             <option value={1}>{STATE_PROPS[1]}</option>
@@ -139,8 +139,9 @@ export const Home: React.FC = () => {
                         >
                             Aplicar a seleccionados ({selectedTicketIds.length})
                         </button>
-                        <button onClick={() => setMenu(5)} className="md-btn md-btn-filled cursor-pointer text-sm ml-auto">
+                        <button onClick={() => setMenu(5)} className="hover:scale-[1.02] group transition-all ease-in hover:bg-blue-50 hover:border-blue-200/60 hover:shadow-lg rounded-md px-6 py-2 cursor-pointer text-sm ml-auto relative">
                             Nuevo Ticket
+                            <div className=" hidden animate-ping absolute right-2 top-[17px] group-hover:block w-1 h-1 rounded-full bg-blue-600"></div>
                         </button>
                     </div>
                 </div>
