@@ -114,6 +114,8 @@
         setMode("editUser");
     };
 
+    
+
     const submitEditUser = async () => {
         if (!editing?.id) return;
         try {
@@ -352,37 +354,49 @@
             {paginatedUsers.length === 0 ? (
                 <div className="p-6 text-center text-gray-500">No hay resultados. Probá limpiar los filtros.</div>
             ) : (
-                paginatedUsers.map((u) => (
-                <div key={u.id} className="px-4 py-3 hover:bg-gray-50 transition">
-                    <details className="group">
-                    <summary className="flex items-center justify-between cursor-pointer list-none">
-                        <div className="flex items-start gap-3">
-                        <div className="flex flex-col items-start">
-                            <div className="flex items-center gap-2">
-                            <p className="font-medium">
-                                {u.name} {u.lastname}{" "}
-                                <span className="text-gray-500 text-sm">({u.dni ?? "—"})</span>
-                            </p>
-                            </div>
-                            <a href={`mailto:${u.mail}`} className="text-xs text-blue-600 hover:underline">
-                            {u.mail ?? "—"}
-                            </a>
-                            <div className="text-[11px] text-gray-600 mt-1">Empresa: {u.originCompany ?? "—"}</div>
-                        </div>
-                        </div>
+                paginatedUsers.map((u, i) => {
 
-                        <div className="flex items-center gap-2">
-                        <button
-                            className="px-3 py-1 rounded border text-sm"
-                            onClick={(e) => { e.preventDefault(); openEdit(u); }}
-                        >
-                            Editar
-                        </button>
-                        </div>
-                    </summary>
-                    </details>
-                </div>
-                ))
+                const isFirst = i === 0;
+                        const isLast = i === paginatedUsers.length - 1;
+
+                        const roundedClass = isFirst
+                            ? "rounded-t-lg"
+                            : isLast
+                            ? "rounded-b-lg"
+                            : "";
+                
+                return (
+                    <div key={u.id} className={`p-4 border border-blue-100/60 bg-gray-50 hover:bg-gray-100 transition-colors duration-300 ${roundedClass}`}>
+                        <details className="group">
+                        <summary className="flex items-center justify-between cursor-pointer list-none">
+                            <div className="flex items-start gap-3">
+                            <div className="flex flex-col items-start">
+                                <div className="flex items-center gap-2">
+                                <p className="font-medium">
+                                    {u.name} {u.lastname}{" "}
+                                    <span className="text-gray-500 text-sm">({u.dni ?? "—"})</span>
+                                </p>
+                                </div>
+                                <a href={`mailto:${u.mail}`} className="text-xs text-blue-600 hover:underline">
+                                {u.mail ?? "—"}
+                                </a>
+                                <div className="text-[11px] text-gray-600 mt-1">Empresa: {u.originCompany ?? "—"}</div>
+                            </div>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                            <button
+                                className="px-3 py-1 rounded border text-sm"
+                                onClick={(e) => { e.preventDefault(); openEdit(u); }}
+                            >
+                                Editar
+                            </button>
+                            </div>
+                        </summary>
+                        </details>
+                    </div>
+                    )
+                })
             )}
             </div>
             </>
